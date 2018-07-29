@@ -1,12 +1,24 @@
 import React from 'react';
 import styles from '../styles/Header.module.css'
 
-const Header = () => {
-  return (
-    <nav className={styles.login}>
-       <button  className={styles.loginButton}>Sign In</button>
-    </nav>
-  );
+const Header = ({ isSignedIn, changeRoute }) =>
+{
+   const signOut = () => {
+      changeRoute('signin')
+   }
+
+     return (
+       <nav className={styles.login}>
+         {
+            isSignedIn
+            ? <button className={styles.loginButton} onClick={signOut}>Sign out</button>
+            : <div>
+                  <button className={styles.loginButton} onClick={() => changeRoute('signin')}>Sign in</button>
+                  <button className={styles.loginButton} onClick={() => changeRoute('register')}>Register</button>
+              </div>
+         }
+       </nav>
+     );
 }
 
 export default Header;

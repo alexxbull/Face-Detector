@@ -1,8 +1,5 @@
 .credits {
-   align-items: flex-start;
    border: 1px solid black;
-   display: flex;
+   color: rgb(195, 195, 195);
    font-size: 1rem;
-   justify-content: center;
-   margin-top: 50%;
 }

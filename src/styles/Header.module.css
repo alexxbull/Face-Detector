@@ -7,14 +7,14 @@
   background: none;
   border: none;
   border-radius: 0.75rem;
-  color: rgb(200, 200, 200);
+  color: rgb(195, 195, 195);
   font-size: 1.5rem;
-  margin: 0.25rem 0.25rem 0 0;
+  margin: 0.25rem 0.25rem 0 1rem;
   padding: 0.25rem;
 }
 
 .loginButton:hover {
    background: none;
-   box-shadow: 0.25rem 0.25rem 0.25rem black;
-   text-decoration: underline white;
+   font-weight: bold;
+   text-decoration: underline black;
 }

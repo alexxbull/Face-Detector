@@ -1,5 +1,4 @@
 .detect {
-
    background: rgb(88, 88, 88);
    border: none;
    border-radius: 0.25rem;
@@ -38,5 +37,6 @@
 }
 
 .instructions {
+   color: black;
    font-size: 1.5rem;
 }

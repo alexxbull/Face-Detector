@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-// import styles from '../styles/Signin.module.css'
 import '../styles/SignIn.css'
 
 class SignIn extends Component {
@@ -8,11 +7,11 @@ class SignIn extends Component {
     this.state = {
       email: '',
       password: '',
-      register: false,
+      toHomePage: () => this.props.changeRoute('home'),
+      toRegisterPage: () => this.props.changeRoute('register'),
    };
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
@@ -20,19 +19,10 @@ class SignIn extends Component {
      this.setState({[name]: event.target.value});
   }
 
-  handleSubmit(event) {
-    alert('A form was submitted: ' + this.state.email + ' ' + this.state.password);
-    event.preventDefault();
-  }
-
-  register(event) {
-     this.setState({register: true});
- }
-
   render() {
     return (
       <div className='middle'>
-         <form onSubmit={this.handleSubmit}>
+         <form onSubmit={this.state.toHomePage}>
            <h1>Sign In</h1>
 
            <label>Email:</label>
@@ -42,9 +32,8 @@ class SignIn extends Component {
            <input className='inputField' type="password" value={this.state.password} onChange={this.handleChange} />
 
            <input type="submit" value="Submit" />
-           <div className='register'>
-              <button onclick={this.register}>Register</button>
-           </div>
+           
+           <button className='register' onClick={this.state.toRegisterPage}>Register</button>
          </form>
       </div>
     );

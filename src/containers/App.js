@@ -9,6 +9,8 @@ import Particles from 'react-particles-js';
 import Clarifai from 'clarifai';
 import SignIn from './SignIn'
 import Register from './Register'
+import Usage from '../components/Usage'
+
 const app = new Clarifai.App({
    apiKey: '3519616be3ef441bbc6fbac6cfd0c759'
 });
@@ -29,25 +31,26 @@ const particleParams = {
 }
 
 
-class App extends Component {
+class App extends Component
+{
    constructor(props) {
       super(props);
       this.state = {
          box: [],
-         // box: {},
          input: '',
          imageURL: '',
          route: 'signin',
+         isSignedIn: false,
       }
    }
 
    getFaceLocation = (response) => {
-      const clarifaiFace = response.outputs[0].data.regions[0].region_info.bounding_box
       const image = document.getElementById('inputImage');
       const height = Number(image.height)
       const width = Number(image.width)
 
       const coordinates = []
+
       response.outputs.forEach(array => {
          return array.data.regions.forEach(array2 => {
              const clarifaiFace = array2.region_info.bounding_box;
@@ -59,20 +62,13 @@ class App extends Component {
              })
          })
       })
-      return coordinates;
 
-      // return {
-      //    leftCol: clarifaiFace.left_col * width,
-      //    topRow: clarifaiFace.top_row * height,
-      //    rightCol: width - (clarifaiFace.right_col * width),
-      //    bottomRow: height - (clarifaiFace.bottom_row * height),
-      // }
+      return coordinates;
    }
 
    onInputchange = (event) => {
       this.setState({input: event.target.value});
    }
-
 
    onButtonSubmit = () => {
       this.setState({imageURL: this.state.input})
@@ -83,22 +79,53 @@ class App extends Component {
          .catch(err => console.log('ERROR', err));
    }
 
+   changeRoute = (newPage) =>
+   {
+      this.setState({route: newPage});
 
-  render() {
+      if (newPage === 'home')
+         this.setState({isSignedIn: true});
+      else if (newPage === 'signin')
+         this.setState({isSignedIn: false});
+   }
+
+
+   handleRouting = () =>
+   {
+      switch (this.state.route)
+      {
+         case 'signin':
+            return <SignIn changeRoute={this.changeRoute}/>
+
+         case 'register':
+            return <Register changeRoute={this.changeRoute}/>
+
+         case 'home':
+            return (
+               <div>
+                  <Logo />
+                  <Usage />
+                  <ImageLinkForm onInputchange={this.onInputchange}
+                                 onButtonSubmit={this.onButtonSubmit}
+                   />
+                  <FaceDetector box={this.state.box} imageURL={this.state.imageURL}/>
+                  <Footer />
+               </div>
+            );
+
+         default:
+            return <SignIn changeRoute={this.changeRoute}/>
+      }
+   }
+
+  render()
+  {
     return (
       <div className="App">
-         <Particles className='particles'
-                    params={particleParams} />
-          {/* <SignIn /> */}
-          {/* <Register /> */}
-          <Header />
-          <Logo />
-          <ImageLinkForm onInputchange={this.onInputchange}
-                         onButtonSubmit={this.onButtonSubmit}
-           />
-          <FaceDetector box={this.state.box} imageURL={this.state.imageURL}/>
-          <Footer />
-      </div>
+         <Particles className='particles' params={particleParams} />
+         <Header isSignedIn={this.state.isSignedIn} changeRoute={this.changeRoute} />
+         {this.handleRouting()}
+    </div>
     );
   }
 }

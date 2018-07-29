@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
-// import styles from '../styles/Signin.module.css'
-import '../styles/Register.css'
+import '../styles/SignIn.css'
 
 class Register extends Component {
   constructor(props) {
@@ -9,10 +8,10 @@ class Register extends Component {
       email: '',
       password: '',
       confirmedPassword: '',
+      toHomePage: () => this.props.changeRoute('home'),
    };
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
@@ -20,15 +19,10 @@ class Register extends Component {
      this.setState({[name]: event.target.value});
   }
 
-  handleSubmit(event) {
-    alert('A form was submitted: ' + this.state.email + ' ' + this.state.password + ' ' + this.state.confirmedPassword);
-    event.preventDefault();
-  }
-
   render() {
     return (
       <div className='middle'>
-         <form onSubmit={this.handleSubmit}>
+         <form onSubmit={this.state.toHomePage}>
            <h1>Sign Up</h1>
 
            <label>Email:</label>
