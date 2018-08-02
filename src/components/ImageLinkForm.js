@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from '../styles/ImageLinkForm.module.css'
-const ImageLinkForm = ({ onInputchange, onButtonSubmit }) => {
+const ImageLinkForm = ({ onInputchange, onImageSubmit }) => {
     return (
         <div>
            <p className={styles.instructions}>
@@ -10,7 +10,7 @@ const ImageLinkForm = ({ onInputchange, onButtonSubmit }) => {
              <div className={`${styles.form} center`}>
                 <input className={`${styles.inputField} center`} type='text' onChange={onInputchange}/>
                 <button className={styles.detect}
-                        onClick={onButtonSubmit}
+                        onClick={onImageSubmit}
                 >Detect</button>
             </div>
            </div>

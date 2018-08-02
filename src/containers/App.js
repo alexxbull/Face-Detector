@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
-import '../App.css';
+import '../styles/App.css';
 import Header from '../components/Header'
 import Logo from '../components/Logo'
 import ImageLinkForm from '../components/ImageLinkForm'
 import FaceDetector from '../components/FaceDetector'
 import Footer from '../components/Footer'
 import Particles from 'react-particles-js';
-import Clarifai from 'clarifai';
 import SignIn from './SignIn'
 import Register from './Register'
 import Usage from '../components/Usage'
-
-const app = new Clarifai.App({
-   apiKey: '3519616be3ef441bbc6fbac6cfd0c759'
-});
 
 const particleParams = {
    particles:
@@ -30,18 +25,36 @@ const particleParams = {
    }
 }
 
+const initialState = {
+  box: [],
+  input: '',
+  imageURL: '',
+  route: 'signin',
+  isSignedIn: false,
+  user: {
+     id: '',
+     name: '',
+     email: '',
+     attempts: 0,
+     joined: '',
+  }
+}
 
 class App extends Component
 {
    constructor(props) {
       super(props);
-      this.state = {
-         box: [],
-         input: '',
-         imageURL: '',
-         route: 'signin',
-         isSignedIn: false,
-      }
+      this.state = initialState;
+   }
+
+   loadUser = (data) => {
+      this.setState({user: {
+        attempts: data.attempts,
+        email: data.email,
+        id: data.id,
+        joined: data.joined,
+        name: data.name,
+      }})
    }
 
    getFaceLocation = (response) => {
@@ -51,9 +64,9 @@ class App extends Component
 
       const coordinates = []
 
-      response.outputs.forEach(array => {
-         return array.data.regions.forEach(array2 => {
-             const clarifaiFace = array2.region_info.bounding_box;
+      response.outputs.forEach(output => {
+         return output.data.regions.forEach(regions => {
+             const clarifaiFace = regions.region_info.bounding_box;
              coordinates.push({
                 leftCol: clarifaiFace.left_col * width,
                 topRow: clarifaiFace.top_row * height,
@@ -66,17 +79,33 @@ class App extends Component
       return coordinates;
    }
 
-   onInputchange = (event) => {
-      this.setState({input: event.target.value});
-   }
+   onInputchange = (event) => this.setState({input: event.target.value});
 
-   onButtonSubmit = () => {
+   onImageSubmit = () => {
       this.setState({imageURL: this.state.input})
 
-      app.models
-         .predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
-         .then(response => this.setState({box: this.getFaceLocation(response)}))
-         .catch(err => console.log('ERROR', err));
+      fetch('http://localhost:3001/imageurl', {
+       method: 'post',
+       headers: {'Content-Type': 'application/json'},
+       body: JSON.stringify({input: this.state.input})
+      })
+      .then(response => response.json())
+      .then(response => {
+        if (response)
+        {
+           fetch('http://localhost:3001/attempts', {
+                method: 'put',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({id: this.state.user.id})
+               })
+           .then(response => response.json())
+           .then(count => this.setState(Object.assign(this.state.user, {attempts: count})))
+           .catch(console.log)
+
+           this.setState({box: this.getFaceLocation(response)})
+        }
+      })
+      .catch(err => console.log('ERROR', err));
    }
 
    changeRoute = (newPage) =>
@@ -86,27 +115,26 @@ class App extends Component
       if (newPage === 'home')
          this.setState({isSignedIn: true});
       else if (newPage === 'signin')
-         this.setState({isSignedIn: false});
+         this.setState(initialState);
    }
-
 
    handleRouting = () =>
    {
       switch (this.state.route)
       {
          case 'signin':
-            return <SignIn changeRoute={this.changeRoute}/>
+            return <SignIn changeRoute={this.changeRoute} loadUser={this.loadUser}/>
 
          case 'register':
-            return <Register changeRoute={this.changeRoute}/>
+            return <Register changeRoute={this.changeRoute} loadUser={this.loadUser}/>
 
          case 'home':
             return (
                <div>
                   <Logo />
-                  <Usage />
+                  <Usage name={this.state.user.name} attempts={this.state.user.attempts}/>
                   <ImageLinkForm onInputchange={this.onInputchange}
-                                 onButtonSubmit={this.onButtonSubmit}
+                                 onImageSubmit={this.onImageSubmit}
                    />
                   <FaceDetector box={this.state.box} imageURL={this.state.imageURL}/>
                   <Footer />

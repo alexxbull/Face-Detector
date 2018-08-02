@@ -11,7 +11,7 @@ button:hover {
    font-weight: bold;
 }
 
-form {
+main {
    align-items: center;
    box-shadow: 0.15rem 0.15rem 0.15rem 0.15rem black;
    display: flex;
@@ -21,6 +21,14 @@ form {
    margin: 0 25%;
    position: fixed;
    width: 500px;
+}
+
+fieldset {
+   border: none;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   position: fixed;
 }
 
 h1 {
@@ -34,24 +42,43 @@ h1 {
    box-shadow: 0.15rem 0.15rem 0.15rem black;
    color: white;
    font-weight: bold;
+   margin-top: 1.5rem;
+}
+
+.inputField:hover {
+   background: black;
 }
 
 label {
-   font-size: 1.75rem;
-   padding-top: 2rem;
+   font-size: 1.5rem;
+   padding-top: 1rem;
 }
 
-input[type='submit'] {
+.submit {
    background: none;
+   /* border: 1px solid whitesmoke; */
    border: none;
-   color: white;
+   color: whitesmoke;
    cursor: pointer;
-   font-size: 2rem;
-   font-weight: 500;
-   margin: 1rem;
-   padding-top: 2rem;
+   font-size: 1.25rem;
+   margin-top: 2rem;
+   padding: 0.25rem;
 }
 
-input[type='submit']:hover {
+.submit:hover {
+   font-weight: bold;
+   background: black;
+}
+
+.register {
+   align-self: flex-end;
+   font-size: 1.25rem;
+   margin-right: 0.25rem;
+}
+
+.register:hover {
+   align-self: flex-end;
+   background: black;
+   font-size: 1.25rem;
    font-weight: bold;
 }
