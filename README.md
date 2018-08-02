@@ -1,9 +1,12 @@
-#  Face Dectector Website 
+#  Face Detector Website 
 
 A website built using React.js that can detect faces once given a url to an image. 
 
+### Website URL
+https://face-detector-react.herokuapp.com/
+
 ### Backend
-[Source](https://github.com/alexxbull/Face-Dectector-Backend)
+[Source](https://github.com/alexxbull/Face-Detector-Backend)
 
 ### Create React App Instructions
 > This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
