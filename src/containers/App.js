@@ -99,6 +99,7 @@ class App extends Component
    changeRoute = (newPage) =>
    {
       this.setState({route: newPage});
+      this.handleError(false, '')
 
       if (newPage === 'home')
          this.setState({isSignedIn: true});

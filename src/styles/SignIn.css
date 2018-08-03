@@ -1,23 +1,10 @@
-button {
-   background: none;
-   border: none;
-   color: rgb(195, 195, 195);
-   font-size: 1.5rem;
-   /* font-weight: bold; */
-}
-
-
-button:hover {
-   font-weight: bold;
-}
-
 main {
    align-items: center;
    box-shadow: 0.15rem 0.15rem 0.15rem 0.15rem black;
    display: flex;
    flex-direction: column;
-   height: 500px;
-   justify-content: center;
+   height: 550px;
+   justify-content: flex-start;
    width: 500px;
 }
 
@@ -54,15 +41,17 @@ label {
 
 .register {
    align-self: flex-end;
-   font-size: 1.25rem;
+   background: none;
+   border: none;
+   color: rgb(195, 195, 195);
+   font-size: 1.15rem;
+   font-weight: bold;
    margin-right: 0.25rem;
 }
 
 .register:hover {
-   align-self: flex-end;
    background: black;
    font-size: 1.25rem;
-   font-weight: bold;
 }
 
 .spinner {
@@ -72,6 +61,7 @@ label {
 .submit {
    background: none;
    border: none;
+   box-shadow: 0.05rem 0.05rem 0.05rem 0.05rem black;
    color: whitesmoke;
    cursor: pointer;
    font-size: 1.25rem;
@@ -82,4 +72,9 @@ label {
 .submit:hover {
   background: black;
   font-weight: bold;
+}
+
+::placeholder {
+    color: rgb(195, 195, 195);
+    opacity: 1;
 }
