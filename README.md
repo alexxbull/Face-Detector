@@ -9,10 +9,10 @@ https://face-detector-react.herokuapp.com/
 [Source](https://github.com/alexxbull/Face-Detector-Backend)
 
 ### TODO
-- [ ] Implement Sessions
-- [ ] Fix background particles reloading on route change
-- [ ] Add loading icon / progress bar
-- [ ] Add error messages
+* Implement Sessions
+* ~~Fix background particles reloading on route change~~
+* ~~Add loading icon / progress bar~~
+* ~~Add error messages~~
 
 ### Create React App Instructions
 > This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
