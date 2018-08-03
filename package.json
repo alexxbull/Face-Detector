@@ -2,11 +2,11 @@
   "name": "facedetector",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://alexxbull.github.io/Face-Detector",
   "dependencies": {
     "clarifai": "^2.8.0",
     "gh-pages": "^1.2.0",
     "react": "^16.4.1",
-    "homepage": "https://alexxbull.github.io/Face-Detector",
     "react-dom": "^16.4.1",
     "react-particles-js": "^2.3.0",
     "react-scripts-cssmodules": "^1.1.10",
