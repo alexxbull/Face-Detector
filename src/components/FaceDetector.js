@@ -15,9 +15,9 @@ const drawBoxes = (box)  =>
 
 const FaceDetector = ({box, imageURL}) => {
     return (
-        <div className='center'>
+        <div className={'center'}>
            <div className={`${styles.image} center`}>
-             <img id='inputImage' src={imageURL} alt='' width='500px' height='auto'/>
+             <img id='inputImage' src={imageURL} alt='' width='100%' height='auto'/>
             {drawBoxes(box)}
          </div>
         </div>
