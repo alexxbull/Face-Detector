@@ -16,7 +16,7 @@ main {
    box-shadow: 0.15rem 0.15rem 0.15rem 0.15rem black;
    display: flex;
    flex-direction: column;
-   height: 500px;
+   height: 505px;
    justify-content: center;
    width: 500px;
 }
@@ -31,6 +31,13 @@ fieldset {
 
 h1 {
    font-size: 4rem;
+}
+
+.error-message {
+  background: rgb(209, 70, 70);
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
 }
 
 .inputField {
@@ -52,22 +59,6 @@ label {
    padding-top: 1rem;
 }
 
-.submit {
-   background: none;
-   /* border: 1px solid whitesmoke; */
-   border: none;
-   color: whitesmoke;
-   cursor: pointer;
-   font-size: 1.25rem;
-   margin-top: 2rem;
-   padding: 0.25rem;
-}
-
-.submit:hover {
-   font-weight: bold;
-   background: black;
-}
-
 .register {
    align-self: flex-end;
    font-size: 1.25rem;
@@ -79,4 +70,23 @@ label {
    background: black;
    font-size: 1.25rem;
    font-weight: bold;
+}
+
+.spinner {
+  /* margin-bottom: 6rem; */
+}
+
+.submit {
+   background: none;
+   border: none;
+   color: whitesmoke;
+   cursor: pointer;
+   font-size: 1.25rem;
+   margin-top: 2rem;
+   padding: 0.25rem;
+}
+
+.submit:hover {
+  background: black;
+  font-weight: bold;
 }

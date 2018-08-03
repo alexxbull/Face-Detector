@@ -15,12 +15,3 @@
    position: absolute;
    width: 100%;
 }
-
-.particles {
-   bottom: 0;
-   left: 0;
-   position: fixed;
-   right: 0;
-   top: 0;
-   z-index: -1;
-}

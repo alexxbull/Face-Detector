@@ -3,9 +3,7 @@ import styles from '../styles/Header.module.css'
 
 const Header = ({ isSignedIn, changeRoute }) =>
 {
-   const signOut = () => {
-      changeRoute('signin')
-   }
+   const signOut = () => changeRoute('signin')
 
      return (
        <nav className={styles.login}>

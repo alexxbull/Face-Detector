@@ -1,29 +1,14 @@
 import React, { Component } from 'react';
 import '../styles/App.css';
+import Background from '../components/Background';
 import Header from '../components/Header'
 import Logo from '../components/Logo'
 import ImageLinkForm from '../components/ImageLinkForm'
 import FaceDetector from '../components/FaceDetector'
 import Footer from '../components/Footer'
-import Particles from 'react-particles-js';
 import SignIn from './SignIn'
 import Register from './Register'
 import Usage from '../components/Usage'
-
-const particleParams = {
-   particles:
-   {
-      number:
-      {
-         value: 100,
-         density:
-         {
-            enable: true,
-            value_area: 800
-         }
-       }
-   }
-}
 
 const initialState = {
   box: [],
@@ -150,7 +135,7 @@ class App extends Component
   {
     return (
       <div className="App">
-         <Particles className='particles' params={particleParams} />
+         <Background />
          <Header isSignedIn={this.state.isSignedIn} changeRoute={this.changeRoute} />
          {this.handleRouting()}
     </div>
