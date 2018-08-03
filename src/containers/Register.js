@@ -2,43 +2,25 @@ import React, { Component } from 'react'
 import '../styles/SignIn.css'
 import { FadeLoader } from 'react-spinners';
 
-const withErrorHandling = WrappedComponent => ({ showError, children, errorMessage }) => {
-  return (
-    <WrappedComponent>
-      {showError && <div className="error-message">{`${errorMessage}`}</div>}
-      {children}
-    </WrappedComponent>
-  );
-};
-
-const DivWithErrorHandling = withErrorHandling(({children}) => <div>{children}</div>)
-
 class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
-      name: '',
       loading: false,
+      name: '',
       password: '',
-      errorMessage: '',
-      showError: '',
+      sendError: (err, msg) => this.props.handleError(err, msg),
       toHomePage: () => this.props.changeRoute('home'),
    };
 
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleError = (err, errMessage) => {
-    this.setState({
-      errorMessage: errMessage,
-      showError: err,
-    })
-};
-
   handleChange(event) {
-    if (this.state.showError)
-      this.setState({showError: false});
+    // hide error message if user modifies input field
+    if (this.props.showError)
+      this.state.sendError(false, '');
 
      const name = event.target.name
      this.setState({[name]: event.target.value});
@@ -48,32 +30,34 @@ class Register extends Component {
     // show loading spinner
     this.setState({loading: true})
 
-    const { email, name, password } = this.state;
+    const { email, name, password, sendError, toHomePage } = this.state;
 
     // handle insufficient input to register
     if (!email || !name || !password)
-      this.handleError(true, 'Incomplete registration form')
+      sendError(true, 'Incomplete registration form')
+
+    // retrieve and load user profile
     else
     {
      fetch('https://rocky-dawn-33996.herokuapp.com/register', {
        method: 'post',
        headers: {'Content-Type': 'application/json'},
        body: JSON.stringify({
-          email: this.state.email,
-          name: this.state.name,
-          password: this.state.password,
+          email: email,
+          name: name,
+          password: password,
        })
      })
      .then(response => response.json())
      .then(user => {
+       // load user profile
        if (user.id) {
           this.props.loadUser(user);
-          this.state.toHomePage();
+          toHomePage();
       }
-      else {
-        // handle email already registered error
-        this.handleError(true, 'The provided email has already been registered to another ')
-      }
+      // handle email already registered error
+      else
+        sendError(true, 'This email has already been registered')
      })
    }
    // hide loading spinner
@@ -81,28 +65,28 @@ class Register extends Component {
  }
 
   render() {
+    const {email, loading, name, password} = this.state;
+
     return (
       <article className='middle'>
-        <DivWithErrorHandling showError={this.state.showError} errorMessage={this.state.errorMessage}>
             <main>
                  <h1>Register</h1>
 
                  <label>Name:</label>
-                 <input className='inputField' name='name' type="text" value={this.state.name} placeholder='name' onChange={this.handleChange} />
+                 <input className='inputField' name='name' type="text" value={name} placeholder='name' onChange={this.handleChange} />
 
                  <label>Email:</label>
-                 <input className='inputField' name='email' type="email" value={this.state.email} placeholder='name@email.com' onChange={this.handleChange} />
+                 <input className='inputField' name='email' type="email" value={email} placeholder='name@email.com' onChange={this.handleChange} />
 
                  <label>Password:</label>
-                 <input className='inputField' name='password' type="password" value={this.state.password} placeholder='password' onChange={this.handleChange} />
+                 <input className='inputField' name='password' type="password" value={password} placeholder='password' onChange={this.handleChange} />
 
                  <input onClick={this.handleRegister} className='submit' type="submit" value="Register" />
 
                  <div className='spinner'>
-                   <FadeLoader  color={'#FFFFFF'} loading={this.state.loading} />
+                   <FadeLoader  color={'#FFFFFF'} loading={loading} />
                  </div>
           </main>
-        </DivWithErrorHandling>
       </article>
     )
   }

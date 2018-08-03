@@ -2,26 +2,14 @@ import React, {Component} from 'react'
 import '../styles/SignIn.css'
 import { FadeLoader } from 'react-spinners';
 
-const withErrorHandling = WrappedComponent => ({ showError, children, errorMessage }) => {
-  return (
-    <WrappedComponent>
-      {showError && <div className="error-message">{`${errorMessage}`}</div>}
-      {children}
-    </WrappedComponent>
-  );
-};
-
-const DivWithErrorHandling = withErrorHandling(({children}) => <div>{children}</div>)
-
 class SignIn extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
-      password: '',
       loading: false,
-      errorMessage: '',
-      showError: '',
+      password: '',
+      sendError: (err, msg) => this.props.handleError(err, msg),
       toHomePage: () => this.props.changeRoute('home'),
       toRegisterPage: () => this.props.changeRoute('register'),
    };
@@ -29,16 +17,10 @@ class SignIn extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleError = (err, errMessage) => {
-    this.setState({
-      errorMessage: errMessage,
-      showError: err,
-    })
-};
-
   handleChange = (event) => {
-    if (this.state.showError)
-      this.setState({showError: false})
+    // hide error message if user modifies input field
+    if (this.props.showError)
+      this.state.sendError(false, '');
 
      const name = event.target.type
      this.setState({[name]: event.target.value});
@@ -48,22 +30,24 @@ class SignIn extends Component {
     // show loading spinner
     this.setState({loading: true})
 
+    const {email, password, sendError, toHomePage} = this.state;
+
      fetch('https://rocky-dawn-33996.herokuapp.com/signin', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-           email: this.state.email,
-           password: this.state.password,
+           email: email,
+           password: password,
         })
      })
       .then(response => response.json())
       .then(user => {
         if (user.id) {
           this.props.loadUser(user);
-          this.state.toHomePage();
+          toHomePage();
         }
         else
-          this.handleError(true, 'Invalid credentials')
+          sendError(true, 'Invalid credentials')
       });
 
       // hide loading spinner
@@ -71,28 +55,28 @@ class SignIn extends Component {
  }
 
   render() {
+    const {email, loading, password, toRegisterPage} = this.state;
+
     return (
       <article className='middle'>
-        <DivWithErrorHandling showError={this.state.showError} errorMessage={this.state.errorMessage}>
            <main>
                 <h1>Sign In</h1>
 
                 <label>Email:</label>
-                <input className='inputField' type="email" value={this.state.email} placeholder='name@email.com' onChange={this.handleChange} />
+                <input className='inputField' type="email" value={email} placeholder='name@email.com' onChange={this.handleChange} />
 
                 <label>Password:</label>
-                <input className='inputField' type="password" value={this.state.password} placeholder='password'
+                <input className='inputField' type="password" value={password} placeholder='password'
                        onChange={this.handleChange} />
 
-                <input className='submit' onClick={this.handleSignIn}type="submit" value="Sign in" />
+                <input className='submit' onClick={this.handleSignIn} type="submit" value="Sign in" />
 
-                <button className='register' type="submit" onClick={this.state.toRegisterPage}>Register</button>
+                <button className='register' type="submit" onClick={toRegisterPage}>Register</button>
 
                 <div className='spinner'>
-                  <FadeLoader  color={'#FFFFFF'} loading={this.state.loading} />
+                  <FadeLoader  color={'#FFFFFF'} loading={loading} />
                 </div>
            </main>
-        </DivWithErrorHandling>
       </article>
     );
   }

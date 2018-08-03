@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../styles/App.css';
 import Background from '../components/Background';
+import DisplayError from '../components/DisplayError'
 import Header from '../components/Header'
 import Logo from '../components/Logo'
 import ImageLinkForm from '../components/ImageLinkForm'
@@ -12,10 +13,12 @@ import Usage from '../components/Usage'
 
 const initialState = {
   box: [],
+  errorMessage: '',
   input: '',
   imageURL: '',
   route: 'signin',
   isSignedIn: false,
+  showError: false,
   user: {
      id: '',
      name: '',
@@ -103,15 +106,22 @@ class App extends Component
          this.setState(initialState);
    }
 
+   handleError = (err, errMessage) => {
+       this.setState({
+         showError: err,
+         errorMessage: errMessage,
+       })
+   };
+
    handleRouting = () =>
    {
       switch (this.state.route)
       {
          case 'signin':
-            return <SignIn changeRoute={this.changeRoute} loadUser={this.loadUser}/>
+            return <SignIn changeRoute={this.changeRoute} loadUser={this.loadUser} handleError={this.handleError} showError={this.state.showError}/>
 
          case 'register':
-            return <Register changeRoute={this.changeRoute} loadUser={this.loadUser}/>
+            return <Register changeRoute={this.changeRoute} loadUser={this.loadUser} handleError={this.handleError} showError={this.state.showError}/>
 
          case 'home':
             return (
@@ -127,7 +137,7 @@ class App extends Component
             );
 
          default:
-            return <SignIn changeRoute={this.changeRoute}/>
+            return <SignIn changeRoute={this.changeRoute} loadUser={this.loadUser} handleError={this.handleError} showError={this.state.showError}/>
       }
    }
 
@@ -136,6 +146,7 @@ class App extends Component
     return (
       <div className="App">
          <Background />
+         <DisplayError errorMessage={this.state.errorMessage} showError={this.state.showError}/>
          <Header isSignedIn={this.state.isSignedIn} changeRoute={this.changeRoute} />
          {this.handleRouting()}
     </div>
