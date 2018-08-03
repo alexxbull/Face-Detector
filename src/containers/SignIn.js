@@ -44,10 +44,10 @@ class SignIn extends Component {
               <h1>Sign In</h1>
 
               <label>Email:</label>
-              <input className='inputField' type="email" value={this.state.email} onChange={this.handleChange} />
+              <input className='inputField' type="email" value={this.state.email} placeholder='name@email.com' onChange={this.handleChange} />
 
               <label>Password:</label>
-              <input className='inputField' type="password" value={this.state.password}
+              <input className='inputField' type="password" value={this.state.password} placeholder='password'
                      onChange={this.handleChange} />
 
               <input className='submit' onClick={this.handleSignIn}type="submit" value="Sign in" />

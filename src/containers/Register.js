@@ -20,6 +20,14 @@ class Register extends Component {
   }
 
   handleRegister = () => {
+    // handle insufficient input to register
+    const { email, name, password } = this.state;
+
+    if (!email || !name || !password)
+    {
+      // show error
+    }
+
      fetch('https://rocky-dawn-33996.herokuapp.com/register', {
        method: 'post',
        headers: {'Content-Type': 'application/json'},
@@ -35,7 +43,10 @@ class Register extends Component {
           this.props.loadUser(user);
           this.state.toHomePage();
       }
-     });
+      else {
+        // show error
+      }
+     })
  }
 
   render() {
@@ -45,14 +56,13 @@ class Register extends Component {
            <h1>Register</h1>
 
            <label>Name:</label>
-           <input className='inputField' name='name' type="text" value={this.state.name} onChange={this.handleChange} />
+           <input className='inputField' name='name' type="text" value={this.state.name} placeholder='name' onChange={this.handleChange} />
 
            <label>Email:</label>
-           <input className='inputField' name='email' type="email" value={this.state.email} onChange={this.handleChange} />
+           <input className='inputField' name='email' type="email" value={this.state.email} placeholder='name@email.com' onChange={this.handleChange} />
 
            <label>Password:</label>
-           <input className='inputField' name='password' type="password" value={this.state.password} onChange={this.handleChange} />
-
+           <input className='inputField' name='password' type="password" value={this.state.password} placeholder='password' onChange={this.handleChange} />
 
            <input onClick={this.handleRegister} className='submit' type="submit" value="Register" />
          </main>
