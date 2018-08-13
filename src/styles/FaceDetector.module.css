@@ -1,8 +1,8 @@
 .image {
-   margin-top: 0.25rem;
-   max-height: 600px;
-   max-width: 600px;
-   position: absolute;
+    margin-top: 0.25rem;
+    max-height: 600px;
+    max-width: 600px;
+    position: absolute;
 }
 
 .boundingBox {
