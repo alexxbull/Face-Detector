@@ -15,6 +15,7 @@ https://face-detector-react.herokuapp.com/
 
 ### TODO
 * Implement Sessions
+* Fix footer on mobile / Implement CSS grid
 * ~~Fix background particles reloading on route change~~
 * ~~Add loading icon / progress bar~~
 * ~~Add error messages~~
